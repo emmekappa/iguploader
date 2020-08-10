@@ -70,7 +70,9 @@
     "@electron-forge/maker-zip": "6.0.0-beta.52",
     "@electron-forge/plugin-webpack": "6.0.0-beta.52",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@types/electron-devtools-installer": "^2.2.0",
     "@types/react-router-dom": "^5.1.5",
+    "@types/sharp": "^0.25.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "css-loader": "^3.0.0",
@@ -85,12 +87,16 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@types/react": "^16.9.45",
     "@types/react-dom": "^16.9.8",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^6.0.0",
     "instagram-private-api": "^1.41.0",
+    "material-ui-dropzone": "^3.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "sharp": "^0.25.4"
   }
 }
