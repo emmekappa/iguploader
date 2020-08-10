@@ -3,8 +3,8 @@ import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/style
 import {Link, MemoryRouter, Route, Switch} from "react-router-dom";
 import {SearchByLocation} from "./SearchByLocation";
 import {AlbumUploader} from "./AlbumUploader";
-import {SecondPage} from "./SecondPage";
-import {albumUploaderPath, rootPath, searchByLocationPath} from "./routes";
+import {Login} from "./Login";
+import {albumUploaderPath, loginPath, rootPath, searchByLocationPath} from "./routes";
 import {DrawerNew} from "./DrawerNew";
 import {AppBarNew} from "./AppBarNew";
 
@@ -97,7 +97,7 @@ export default function Main() {
                     <Switch>
                         <Route path={rootPath} exact component={SearchByLocation}/>
                         <Route path={albumUploaderPath} component={AlbumUploader}/>
-                        <Route path={"/secondPage"} component={SecondPage}/>
+                        <Route path={loginPath} component={Login}/>
                         <Route path={searchByLocationPath} component={SearchByLocation}/>
                     </Switch>
                 </main>

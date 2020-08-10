@@ -7,7 +7,7 @@ import sharp from "sharp";
 export class InstagramClient {
     private readonly username: string
     private readonly password: string
-    private ig: IgApiClient;
+    private readonly ig: IgApiClient;
     private readonly userCookiePath: "./.ig-cookie.json";
 
     constructor(username: string, password: string) {
@@ -18,11 +18,12 @@ export class InstagramClient {
 
     async login() {
         this.ig.state.generateDevice(this.username)
-        await this.reloadState()
-        let logged = await this.ig.account.login(this.username, this.password)
+        //await this.reloadState()
+        await this.ig.account.login(this.username, this.password)
+        //await this.saveState()
     }
 
-    private async saveState(serialized: any) {
+    private async saveState() {
         const cookieJar = await this.ig.state.serializeCookieJar()
         fs.writeFileSync(this.userCookiePath, JSON.stringify(cookieJar), 'utf-8')
     }
@@ -46,11 +47,6 @@ export class InstagramClient {
             console.log(`reading file from: ${localPath}`)
             items.push({ file: await this.prepareImage(localPath)})
         }
-
-        /*let items: Array<PostingAlbumPhotoItem> = localPaths.map<PostingAlbumPhotoItem>(value => {
-            console.log(`reading file from: ${value}`)
-            return {file: await this.prepareImage(value)}
-        })*/
 
         try {
             let result = await this.ig.publish.album({

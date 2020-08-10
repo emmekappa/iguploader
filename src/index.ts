@@ -48,8 +48,6 @@ app.on('activate', () => {
     }
 });
 
-export const client = new InstagramClient("testiguploader", "stocazzo123")
-
 ipcMain.handle("search-by-location", searchByLocationHandler)
 ipcMain.handle("upload-album", uploadAlbumHandler)
 
