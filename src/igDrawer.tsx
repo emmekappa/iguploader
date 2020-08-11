@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FunctionComponent, PropsWithChildren} from 'react';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -7,11 +7,15 @@ import IconButton from '@material-ui/core/IconButton';
 import {AccountBox, ChevronLeft, ChevronRight, Drafts} from "@material-ui/icons";
 import theme from "./theme";
 import {albumUploaderPath, loginPath, searchByLocationPath} from "./routes";
-import {ListItemLink} from "./IgDrawer";
-import {useStyles} from "./Main";
+import {ListItemLink} from "./listItemLink";
+import {useStyles} from "./main";
 
+interface DrawerNewProps {
+    open: boolean;
+    onClick: () => void;
+}
 
-export function DrawerNew(props: { open: boolean, onClick: () => void }) {
+export const IgDrawer: FunctionComponent<DrawerNewProps> = (props: DrawerNewProps) => {
     const classes = useStyles();
     return <Drawer
         variant="permanent"
@@ -39,4 +43,4 @@ export function DrawerNew(props: { open: boolean, onClick: () => void }) {
             <ListItemLink to={loginPath} primary="Login" icon={<AccountBox/>}/>
         </List>
     </Drawer>;
-}
+};

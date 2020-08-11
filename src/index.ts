@@ -1,5 +1,4 @@
 import {app, BrowserWindow, ipcMain} from 'electron';
-import {InstagramClient} from "./instagram";
 import {searchByLocationHandler, uploadAlbumHandler} from "./instagramHandlers";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;

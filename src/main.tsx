@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import {Link, MemoryRouter, Route, Switch} from "react-router-dom";
-import {SearchByLocation} from "./SearchByLocation";
-import {AlbumUploader} from "./AlbumUploader";
-import {Login} from "./Login";
+import {SearchByLocation} from "./searchByLocation";
+import {AlbumUploader} from "./albumUploader";
+import {Login} from "./login";
 import {albumUploaderPath, loginPath, rootPath, searchByLocationPath} from "./routes";
-import {DrawerNew} from "./DrawerNew";
-import {AppBarNew} from "./AppBarNew";
+import {IgDrawer} from "./igDrawer";
+import {IgAppBar} from "./igAppBar";
 
 const drawerWidth = 240;
 
@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme: Theme) =>
 
 
 export default function Main() {
-    let classes = useStyles();
+    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -90,15 +90,15 @@ export default function Main() {
     return (
         <div className={classes.root}>
             <MemoryRouter initialEntries={[rootPath]} initialIndex={0}>
-                <AppBarNew open={open} onClick={handleDrawerOpen} title="Instagram uploader"/>
-                <DrawerNew open={open} onClick={handleDrawerClose} />
+                <IgAppBar open={open} onClick={handleDrawerOpen} title="Instagram uploader"/>
+                <IgDrawer open={open} onClick={handleDrawerClose} />
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Switch>
                         <Route path={rootPath} exact component={SearchByLocation}/>
                         <Route path={albumUploaderPath} component={AlbumUploader}/>
-                        <Route path={loginPath} component={Login}/>
                         <Route path={searchByLocationPath} component={SearchByLocation}/>
+                        <Route path={loginPath} component={Login}/>
                     </Switch>
                 </main>
 
