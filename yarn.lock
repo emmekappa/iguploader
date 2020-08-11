@@ -6781,6 +6781,11 @@ rcedit@^2.0.0:
   resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-2.2.0.tgz#3bfe71248749fa821fef26eda3d35f4e0ee47afc"
   integrity sha512-dhFtYmQS+V8qQIANyX6zDK+sO50ayDePKApi46ZPK8I6QeyyTDD6LManMa7a3p3c9mLM4zi9QBP41pfhQ9p7Sg==
 
+react-disable@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-disable/-/react-disable-0.1.0.tgz#e3474aefcb2b91fcb534693c66b7497fb28b85af"
+  integrity sha512-3RbSYuUtakIy1ulCfDf6yoJAsjHFNLv467bSBwyxkNDyez/z7CbcTZ6QUWCrhfybvfm81IN6QT3pUfDoKcvaFQ==
+
 react-dom@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
