@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {CssBaseline, ThemeProvider} from '@material-ui/core';
-import {makeStyles} from "@material-ui/core/styles";
 import theme from "./theme";
 import Main from "./Main";
 
