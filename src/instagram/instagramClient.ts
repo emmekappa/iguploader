@@ -1,6 +1,8 @@
 import {IgApiClient} from "instagram-private-api";
 import {IgLocation} from "../IgLocation";
 import * as fs from "fs";
+import * as os from "os"
+import * as path from "path"
 import {PostingAlbumPhotoItem} from "instagram-private-api/dist/types/posting.album.options";
 import sharp from "sharp";
 
@@ -8,30 +10,52 @@ export class InstagramClient {
     private readonly username: string
     private readonly password: string
     private readonly ig: IgApiClient;
-    private readonly userCookiePath: "./.ig-cookie.json";
+    private readonly userCookiePath = path.join(os.tmpdir(), ".igUploaderState.json")
 
-    constructor(username: string, password: string) {
+    constructor({username, password}: { username: string; password: string }) {
         this.username = username
         this.password = password
         this.ig = new IgApiClient()
+        this.ig.request.end$.subscribe(async () => {
+            await this.saveState();
+        });
+        this.ig.state.generateDevice(this.username)
     }
 
-    async login(): Promise<void> {
-        this.ig.state.generateDevice(this.username)
-        //await this.reloadState()
-        await this.ig.account.login(this.username, this.password)
-        //await this.saveState()
+    async login(force= false): Promise<void> {
+        if(force) {
+            await this.forceLogin()
+            return
+        }
+
+        await this.reloadState()
+        try {
+            const currentUser = await this.ig.account.currentUser()
+            if (!currentUser.username)
+                throw new Error("not logged in")
+            else
+                console.log("State still looks valid")
+        } catch (error) {
+            console.log("State seems not valid trying to login again...")
+            await this.forceLogin();
+        }
+    }
+
+    private async forceLogin() {
+        const response = await this.ig.account.login(this.username, this.password)
+        console.log(`Username after login: ${response.username}`)
     }
 
     private async saveState(): Promise<void> {
-        const cookieJar = await this.ig.state.serializeCookieJar()
-        fs.writeFileSync(this.userCookiePath, JSON.stringify(cookieJar), 'utf-8')
+        const serialized = await this.ig.state.serialize();
+        delete serialized.constants; // this deletes the version info, so you'll always use the version provided by the library
+        fs.writeFileSync(this.userCookiePath, JSON.stringify(serialized), 'utf-8')
     }
 
     private async reloadState(): Promise<void> {
         if (fs.existsSync(this.userCookiePath)) {
             const savedCookie = fs.readFileSync(this.userCookiePath, 'utf-8')
-            await this.ig.state.deserializeCookieJar(savedCookie)
+            await this.ig.state.deserialize(savedCookie)
         }
     }
 
@@ -43,9 +67,9 @@ export class InstagramClient {
     async uploadAlbum(caption: string, localPaths: string[]): Promise<void> {
         const items = new Array<PostingAlbumPhotoItem>()
 
-        for(const localPath of localPaths) {
+        for (const localPath of localPaths) {
             console.log(`reading file from: ${localPath}`)
-            items.push({ file: await InstagramClient.prepareImage(localPath)})
+            items.push({file: await InstagramClient.prepareImage(localPath)})
         }
 
         try {

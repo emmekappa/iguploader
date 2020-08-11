@@ -1,19 +1,22 @@
 import {IpcMainInvokeEvent} from "electron";
-import {InstagramClient} from "./instagram/instagramClient";
+import {InstagramClient, CredentialsStore} from "./instagram";
 import {IgLocation} from "./IgLocation";
-import {IgAuthenticationStore} from "./instagram/igAuthenticationStore";
+
 
 export interface SearchByLocationArgs {
     query: string;
 }
 
 function createClient(): InstagramClient {
-    const username: string = IgAuthenticationStore.get("username") ?? ""
-    const password: string = IgAuthenticationStore.get("password") ?? ""
-    return new InstagramClient(username, password)
+    const credentials = new CredentialsStore().get();
+    if (credentials == undefined) {
+        console.error("Credentials not defined")
+        throw new Error("Credentials not defined")
+    }
+    return new InstagramClient(credentials)
 }
 
-export const searchByLocationHandler = async (event: IpcMainInvokeEvent, args: SearchByLocationArgs): Promise<IgLocation[]> => {
+export async function searchByLocationHandler(event: IpcMainInvokeEvent, args: SearchByLocationArgs): Promise<IgLocation[]> {
     const client = createClient()
     await client.login()
     return await client.searchLocation(args.query)
@@ -24,8 +27,19 @@ export interface UploadAlbumArgs {
     filesPath: string[];
 }
 
-export const uploadAlbumHandler = async (event: IpcMainInvokeEvent, args: UploadAlbumArgs): Promise<void> => {
+export async function uploadAlbumHandler(event: IpcMainInvokeEvent, args: UploadAlbumArgs): Promise<void> {
     const client = createClient()
     await client.login()
     return await client.uploadAlbum(args.caption, args.filesPath)
+}
+
+export async function loginHandler(event: IpcMainInvokeEvent, args: {}): Promise<boolean> {
+    const client = createClient()
+    try {
+        await client.login(true)
+        return true
+    } catch (error) {
+        console.error(`Unable to login: ${error.message}`)
+        return false
+    }
 }

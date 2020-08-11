@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FunctionComponent, useEffect, useState} from "react";
+import {FunctionComponent, useContext, useEffect, useState} from "react";
 import {
     Container,
     Paper,
@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {ipcRenderer} from "electron";
 import {IgLocation} from "./IgLocation";
+import {InstagramIpcInvokerContext} from "./main";
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
     return {name, calories, fat, carbs, protein};
@@ -34,13 +35,8 @@ const useStyles = makeStyles({
     },
 });
 
-async function searchByLocation(query: string) : Promise<IgLocation[]> {
-    const result = await ipcRenderer.invoke('search-by-location', {query: query});
-    console.log(result)
-    return result
-}
-
 export const SearchByLocation: FunctionComponent = (props) => {
+    const instagramIpcInvoker = useContext(InstagramIpcInvokerContext)
     const [locations, setLocations] = useState<IgLocation[]>([]);
     const [query, setQuery] = useState("");
     useEffect(() => {
@@ -57,7 +53,7 @@ export const SearchByLocation: FunctionComponent = (props) => {
             </form>
 
             <Button variant="contained" color="primary" onClick={async () => {
-                setLocations(await searchByLocation(query))
+                setLocations(await instagramIpcInvoker.searchByLocation(query))
             }}>
                 Search
             </Button>

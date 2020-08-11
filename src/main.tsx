@@ -1,12 +1,14 @@
-import React, {Fragment} from 'react';
-import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
-import {Link, MemoryRouter, Route, Switch} from "react-router-dom";
+import React, {FunctionComponent, useContext} from 'react';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {MemoryRouter, Route, Switch} from "react-router-dom";
 import {SearchByLocation} from "./searchByLocation";
 import {AlbumUploader} from "./albumUploader";
 import {Login} from "./login";
 import {albumUploaderPath, loginPath, rootPath, searchByLocationPath} from "./routes";
 import {IgDrawer} from "./igDrawer";
 import {IgAppBar} from "./igAppBar";
+import {CredentialsStore} from "./instagram";
+import {InstagramIpcInvoker} from "./instagramIpcInvoker";
 
 const drawerWidth = 240;
 
@@ -74,26 +76,36 @@ export const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+export const CredentialsStoreContext = React.createContext<CredentialsStore>(new CredentialsStore())
+export const InstagramIpcInvokerContext = React.createContext<InstagramIpcInvoker>(new InstagramIpcInvoker())
 
-export default function Main() {
+const Main: FunctionComponent = () => {
+    const credentialsStore = useContext<CredentialsStore>(CredentialsStoreContext)
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
-    const handleDrawerOpen = () => {
+    const handleDrawerOpen = (): void => {
         setOpen(true);
     };
 
-    const handleDrawerClose = () => {
+    const handleDrawerClose = (): void => {
         setOpen(false);
     };
 
+    const initialPage = (): string => {
+        if (credentialsStore.get() == undefined || credentialsStore.get()?.username == "" || credentialsStore.get()?.password == "")
+            return loginPath
+        else
+            return albumUploaderPath
+    }
+
     return (
         <div className={classes.root}>
-            <MemoryRouter initialEntries={[rootPath]} initialIndex={0}>
+            <MemoryRouter initialEntries={[initialPage()]} initialIndex={0}>
                 <IgAppBar open={open} onClick={handleDrawerOpen} title="Instagram uploader"/>
-                <IgDrawer open={open} onClick={handleDrawerClose} />
+                <IgDrawer open={open} onClick={handleDrawerClose}/>
                 <main className={classes.content}>
-                    <div className={classes.toolbar} />
+                    <div className={classes.toolbar}/>
                     <Switch>
                         <Route path={rootPath} exact component={SearchByLocation}/>
                         <Route path={albumUploaderPath} component={AlbumUploader}/>
@@ -101,8 +113,9 @@ export default function Main() {
                         <Route path={loginPath} component={Login}/>
                     </Switch>
                 </main>
-
             </MemoryRouter>
         </div>
     );
-}
+};
+
+export default Main

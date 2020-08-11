@@ -1,5 +1,5 @@
 import {app, BrowserWindow, ipcMain} from 'electron';
-import {searchByLocationHandler, uploadAlbumHandler} from "./instagramHandlers";
+import {registerHandlers} from "./registerHandlers";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -47,8 +47,8 @@ app.on('activate', () => {
     }
 });
 
-ipcMain.handle("search-by-location", searchByLocationHandler)
-ipcMain.handle("upload-album", uploadAlbumHandler)
+registerHandlers(ipcMain)
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
