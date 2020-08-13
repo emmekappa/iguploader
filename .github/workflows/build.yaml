@@ -24,7 +24,7 @@ jobs:
       - run: yarn lint
       - run: yarn package
       - run: yarn make
-      - name: Upload math result for job 1
+      - name: Uploading dmg artifact
         uses: actions/upload-artifact@v2
         with:
           name: dmg
@@ -36,7 +36,7 @@ jobs:
     needs: build
 
     steps:
-      - name: Download dmg
+      - name: Download dmg artifact
         uses: actions/download-artifact@v2
         with:
           name: dmg
