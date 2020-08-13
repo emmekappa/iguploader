@@ -32,7 +32,7 @@ jobs:
 
   upload-latest-release:
     name: upload latest release
-    run-on: ubuntu
+    runs-on: ubuntu
     needs: build
 
     steps:
