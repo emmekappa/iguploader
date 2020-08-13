@@ -1,7 +1,6 @@
 import {IpcMainInvokeEvent} from "electron";
-import {InstagramClient, CredentialsStore} from "./instagram";
+import {CredentialsStore, InstagramClient} from "./instagram";
 import {IgLocation} from "./IgLocation";
-
 
 export interface SearchByLocationArgs {
     query: string;

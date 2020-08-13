@@ -1,20 +1,11 @@
 import * as React from "react";
 import {FunctionComponent, useContext, useState} from "react";
-import {
-    Box,
-    Button, Container,
-    createStyles,
-    FormControl, Hidden,
-    Input,
-    InputLabel,
-    LinearProgress,
-    TextField,
-    Theme,
-    Typography
-} from "@material-ui/core";
+import {Box, Button, Container, createStyles, LinearProgress, TextField, Theme, Typography} from "@material-ui/core";
 import {CredentialsStoreContext, InstagramIpcInvokerContext} from "./main";
 import {Alert} from '@material-ui/lab';
 import {makeStyles} from "@material-ui/core/styles";
+import {Link} from "react-router-dom";
+import {albumUploaderPath} from "./routes";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) =>
             '& > *': {
                 margin: theme.spacing(1),
             },
+        },
+        moreSpace: {
+            margin: theme.spacing(2, 0, 4)
         },
     }),
 );
@@ -59,7 +53,13 @@ export const Login: FunctionComponent = (props) => {
     }
 
     return (
-        <Typography variant="h2">
+        <Container>
+            <Typography variant="h2">
+                Instagram account
+            </Typography>
+            <Typography variant="h6" className={classes.moreSpace}>
+                Please enter your instagram account credentials
+            </Typography>
             <form noValidate autoComplete="off" onSubmit={saveLogin} aria-describedby="progressBar" aria-busy={loading}
                   aria-disabled={loading}>
                 <TextField id="standard-basic" label="username" onChange={event => setUsername(event.target.value)}
@@ -74,7 +74,7 @@ export const Login: FunctionComponent = (props) => {
                 </Box>
                 <Box hidden={!loginSuccessful}>
                     <Alert severity="success">
-                        Login was successful
+                        Login was successful, you can now <Link to={albumUploaderPath}>upload your album</Link>
                     </Alert>
                 </Box>
                 <div className={classes.root}>
@@ -83,6 +83,6 @@ export const Login: FunctionComponent = (props) => {
                         credentials</Button>
                 </div>
             </form>
-        </Typography>
+        </Container>
     )
 }

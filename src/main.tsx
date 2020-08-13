@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext} from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {MemoryRouter, Route, Switch} from "react-router-dom";
 import {SearchByLocation} from "./searchByLocation";
 import {AlbumUploader} from "./albumUploader";
@@ -12,7 +12,7 @@ import {InstagramIpcInvoker} from "./instagramIpcInvoker";
 
 const drawerWidth = 240;
 
-export const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             display: 'flex',

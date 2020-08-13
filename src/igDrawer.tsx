@@ -1,10 +1,10 @@
-import React, {FunctionComponent, PropsWithChildren} from 'react';
+import React, {FunctionComponent} from 'react';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import {AccountBox, ChevronLeft, ChevronRight, Drafts} from "@material-ui/icons";
+import {AccountBox, ChevronLeft, ChevronRight, PhotoLibrary, Search} from "@material-ui/icons";
 import theme from "./theme";
 import {albumUploaderPath, loginPath, searchByLocationPath} from "./routes";
 import {ListItemLink} from "./listItemLink";
@@ -37,8 +37,8 @@ export const IgDrawer: FunctionComponent<DrawerNewProps> = (props: DrawerNewProp
         </div>
         <Divider/>
         <List>
-            <ListItemLink to={albumUploaderPath} primary="Album uploader" icon={<Drafts/>}/>
-            <ListItemLink to={searchByLocationPath} primary="Search by location" icon={<Drafts/>}/>
+            <ListItemLink to={albumUploaderPath} primary="Album uploader" icon={<PhotoLibrary/>}/>
+            <ListItemLink to={searchByLocationPath} primary="Search by location" icon={<Search/>}/>
             <Divider/>
             <ListItemLink to={loginPath} primary="Login" icon={<AccountBox/>}/>
         </List>
