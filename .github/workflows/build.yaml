@@ -25,10 +25,10 @@ jobs:
       - run: yarn package
       - run: yarn make
       - name: Upload math result for job 1
-          uses: actions/upload-artifact@v2
-          with:
-            name: dmg
-            path: out/make/*.dmg
+        uses: actions/upload-artifact@v2
+        with:
+          name: dmg
+          path: out/make/*.dmg
 
   upload-latest-release:
     name: upload latest release
@@ -37,9 +37,9 @@ jobs:
 
     steps:
       - name: Download dmg
-          uses: actions/download-artifact@v2
-          with:
-            name: dmg
+        uses: actions/download-artifact@v2
+        with:
+          name: dmg
       - name: Get release url
           id: get_release_url
           run:   |
@@ -54,4 +54,4 @@ jobs:
           upload_url: ${{ steps.get_release_url.outputs.upload_url }}
           asset_path: ./iguploader-1.0.0.dmg
           asset_name: iguploader-1.0.0.dmg
-          asset_content_type: application/zip
+          asset_content_type: application/octet-stream
