@@ -1,22 +1,12 @@
 import * as React from "react";
 import {FunctionComponent, useContext, useState} from "react";
-import {
-    Box,
-    Container,
-    createStyles,
-    FormControl,
-    LinearProgress,
-    TextField,
-    Theme,
-    Typography
-} from "@material-ui/core";
+import {Container, createStyles, FormControl, LinearProgress, TextField, Theme, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {InstagramIpcInvokerContext} from "./main";
 import {makeStyles} from "@material-ui/core/styles";
-import {Alert} from "@material-ui/lab";
 import {Disable} from 'react-disable';
-import {PhotoValidator} from "./photo/photoValidator";
 import {IgDropzone} from "./igDropZone";
+import {useSnackbar} from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,48 +21,30 @@ export const AlbumUploader: FunctionComponent = () => {
     const [caption, setCaption] = useState<string>("")
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState<boolean>(false)
-    const [uploadSuccessful, setUploadSuccessful] = useState<boolean>(false)
     const [key, setKey] = useState(0);
     const classes = useStyles();
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
-    const onSave = async (files: File[]): Promise<void> => {
+    const uploadFiles = async (files: File[]): Promise<void> => {
         setLoading(true)
+        console.log("Start uploading")
         console.log(files)
-        //await instagramIpcInvoker.albumUpload(caption, files.map(x => x.path))
-        setKey(key + 1)
-        setLoading(false)
-        setCaption("")
-        setUploadSuccessful(true)
+        try {
+            await instagramIpcInvoker.albumUpload(caption, files.map(x => x.path))
+            setKey(key + 1)
+            setCaption("")
+            enqueueSnackbar("Upload was successful", {variant: "success"})
+        } catch (error) {
+            enqueueSnackbar(error.message, {variant: "error"})
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
-    /*const handlePreviewIcon = (fileObject: FileObject, classes: PreviewIconProps): React.ReactElement => {
-        const {type} = fileObject.file
-        const iconProps = {
-            className : classes.image,
-        }
-
-        if (type.startsWith("video/")) return <Theaters {...iconProps} />
-        if (type.startsWith("audio/")) return <AudioTrack {...iconProps} />
-
-        switch (type) {
-            case "application/msword":
-            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                return <Description {...iconProps} />
-            case "application/pdf":
-                return <PictureAsPdf {...iconProps} />
-            default:
-                return <AttachFile {...iconProps} />
-        }
-    }*/
-
     const onChange = async (files: File[]) => {
-        const photoValidator = new PhotoValidator();
+        console.log(files)
         setFiles(files);
-        /*for (const file of files) {
-            const validationResult = await photoValidator.isValid(file.path)
-            if(!validationResult.isValid)
-                window.alert(validationResult.reason)
-        }*/
     }
     return <Container>
         <Typography variant="h2" className={classes.moreSpace}>
@@ -82,14 +54,13 @@ export const AlbumUploader: FunctionComponent = () => {
         <div>
             <form noValidate autoComplete="off">
                 <Disable disabled={loading}>
-                <TextField id="standard-basic" label="Caption" onChange={event => setCaption(event.target.value)}
-                           fullWidth value={caption} multiline={true} rows={4}/>
+                    <TextField id="standard-basic" label="Caption" onChange={event => setCaption(event.target.value)}
+                               fullWidth value={caption} multiline={true} rows={4}/>
                     <FormControl className={classes.moreSpace} fullWidth disabled={loading}>
                         <IgDropzone
                             key={key}
                             acceptedFiles={['image/*']}
                             dropzoneText={"Drag and drop an image here or click"}
-                            //getPreviewIcon={handlePreviewIcon}
                             showPreviewsInDropzone={true}
                             showPreviews={false}
                             onChange={onChange}
@@ -102,12 +73,7 @@ export const AlbumUploader: FunctionComponent = () => {
                     </FormControl>
                 </Disable>
                 <LinearProgress hidden={!loading}/>
-                <Box hidden={!uploadSuccessful}>
-                    <Alert severity="success">
-                        Upload was successful
-                    </Alert>
-                </Box>
-                <Button variant="contained" color="primary" onClick={() => onSave(files)}
+                <Button variant="contained" color="primary" onClick={() => uploadFiles(files)}
                         disabled={loading} fullWidth>Upload</Button>
             </form>
         </div>

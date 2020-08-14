@@ -22,8 +22,8 @@ export class InstagramClient {
         this.ig.state.generateDevice(this.username)
     }
 
-    async login(force= false): Promise<void> {
-        if(force) {
+    async login(force = false): Promise<void> {
+        if (force) {
             await this.forceLogin()
             return
         }
@@ -85,8 +85,20 @@ export class InstagramClient {
 
     private static async prepareImage(path: string): Promise<Buffer> {
         return await sharp(path).resize({
-            width: 1000,
+            width: 1080,
             withoutEnlargement: true,
-        }).toBuffer();
+        }).jpeg({quality: 80}).toBuffer();
+    }
+
+    async uploadPhoto(caption: string, localPath: string) {
+        try {
+            const result = await this.ig.publish.photo({
+                caption: caption,
+                file: await InstagramClient.prepareImage(localPath)
+            })
+            console.log(`result: ${result}`)
+        } catch (error) {
+            console.error(`error: ${error.message}`)
+        }
     }
 }

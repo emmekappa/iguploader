@@ -2,8 +2,8 @@ import {ipcRenderer} from "electron";
 import {IgLocation} from "./IgLocation";
 
 export class InstagramIpcInvoker {
-    public async albumUpload(query: string, filesPath: string[]): Promise<void> {
-        const result = await ipcRenderer.invoke('upload-album', {query: query, filesPath: filesPath});
+    public async albumUpload(caption: string, filesPath: string[]): Promise<void> {
+        const result = await ipcRenderer.invoke('upload-album', {caption: caption, filesPath: filesPath});
         console.log(result)
         return result
     }
@@ -14,7 +14,7 @@ export class InstagramIpcInvoker {
         return result
     }
 
-    async login() {
+    public async login(): Promise<void> {
         const result = await ipcRenderer.invoke('login', {});
         console.log(result)
         return result

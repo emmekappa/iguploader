@@ -29,7 +29,10 @@ export interface UploadAlbumArgs {
 export async function uploadAlbumHandler(event: IpcMainInvokeEvent, args: UploadAlbumArgs): Promise<void> {
     const client = createClient()
     await client.login()
-    return await client.uploadAlbum(args.caption, args.filesPath)
+    if(args.filesPath.length <= 1)
+        return await client.uploadPhoto(args.caption, args.filesPath[0])
+    else
+        return await client.uploadAlbum(args.caption, args.filesPath)
 }
 
 export async function loginHandler(event: IpcMainInvokeEvent, args: {}): Promise<boolean> {

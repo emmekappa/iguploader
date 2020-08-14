@@ -11,11 +11,13 @@ const splitDropzoneAreaProps = (props: DropzoneAreaProps) => {
 
 export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWithChildren<DropzoneAreaProps>) => {
     const [, dropzoneAreaProps] = splitDropzoneAreaProps(props);
-    const [fileObjects, setFiles] = useState<FileObject[]>(new Array<FileObject>())
+    const [fileObjects, setFileObjects] = useState<FileObject[]>(new Array<FileObject>())
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     const notifyFileChange = (): void => {
         if (props.onChange) {
+            console.log("Notifying files")
+            console.log(fileObjects.map((fileObject) => fileObject.file))
             props.onChange(fileObjects.map((fileObject) => fileObject.file));
         }
     }
@@ -23,11 +25,16 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
     useEffect(() => {
         return () => {
             if (props.clearOnUnmount) {
-                setFiles([])
+                console.log("Clear on unmount")
+                setFileObjects([])
                 notifyFileChange()
             }
         }
     }, [])
+
+    useEffect(() => {
+        notifyFileChange()
+    }, [fileObjects])
 
     const onAdd = async (addedFileObjects: FileObject[]): Promise<void> => {
         const photoValidator = new PhotoValidator();
@@ -46,8 +53,8 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
                 validFileObjects.push(fileObject)
         }
         if (validFileObjects.length > 0) {
-            setFiles(fileObjects.concat(validFileObjects))
-            notifyFileChange()
+            const newFileObjects = fileObjects.concat(validFileObjects)
+            setFileObjects(newFileObjects)
             enqueueSnackbar(`Added files: ${validFileObjects.map(x => x.file.name).join(", ")}`, {variant: "success"})
             console.log('Added Files:', validFileObjects)
         }
@@ -56,9 +63,8 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
         const remainingFileObjs = fileObjects.filter((fileObject, i) => {
             return i !== index;
         })
-        setFiles(remainingFileObjs)
-        notifyFileChange()
-        enqueueSnackbar(`Deleted file: ${fileObject.file.name}`, {variant: "success"})
+        setFileObjects(remainingFileObjs)
+        //enqueueSnackbar(`Deleted file: ${fileObject.file.name}`, {variant: "success"})
         console.log('Removed File:', fileObject)
     }
 
@@ -71,6 +77,7 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
             onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
             fileObjects={fileObjects}
             showAlerts={false}
+            filesLimit={10}
         />
     )
 }
