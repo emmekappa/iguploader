@@ -31,7 +31,11 @@
         },
         {
           "name": "@electron-forge/maker-zip",
-          "platforms": ["darwin", "linux", "windows"]
+          "platforms": [
+            "darwin",
+            "linux",
+            "windows"
+          ]
         }
       ],
       "plugins": [
@@ -72,6 +76,7 @@
     "@typescript-eslint/parser": "^2.18.0",
     "barrelsby": "^2.2.0",
     "chai": "^4.2.0",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.0.0",
     "electron": "^9.2.0",
     "eslint": "^6.8.0",
