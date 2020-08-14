@@ -11,12 +11,12 @@ import {
     Typography
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {DropzoneArea} from "material-ui-dropzone";
 import {InstagramIpcInvokerContext} from "./main";
 import {makeStyles} from "@material-ui/core/styles";
 import {Alert} from "@material-ui/lab";
 import {Disable} from 'react-disable';
 import {PhotoValidator} from "./photo/photoValidator";
+import {IgDropzone} from "./igDropZone";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,7 +38,7 @@ export const AlbumUploader: FunctionComponent = () => {
     const onSave = async (files: File[]): Promise<void> => {
         setLoading(true)
         console.log(files)
-        await instagramIpcInvoker.albumUpload(caption, files.map(x => x.path))
+        //await instagramIpcInvoker.albumUpload(caption, files.map(x => x.path))
         setKey(key + 1)
         setLoading(false)
         setCaption("")
@@ -68,11 +68,11 @@ export const AlbumUploader: FunctionComponent = () => {
     const onChange = async (files: File[]) => {
         const photoValidator = new PhotoValidator();
         setFiles(files);
-        for (const file of files) {
+        /*for (const file of files) {
             const validationResult = await photoValidator.isValid(file.path)
             if(!validationResult.isValid)
                 window.alert(validationResult.reason)
-        }
+        }*/
     }
     return <Container>
         <Typography variant="h2" className={classes.moreSpace}>
@@ -85,7 +85,7 @@ export const AlbumUploader: FunctionComponent = () => {
                 <TextField id="standard-basic" label="Caption" onChange={event => setCaption(event.target.value)}
                            fullWidth value={caption} multiline={true} rows={4}/>
                     <FormControl className={classes.moreSpace} fullWidth disabled={loading}>
-                        <DropzoneArea
+                        <IgDropzone
                             key={key}
                             acceptedFiles={['image/*']}
                             dropzoneText={"Drag and drop an image here or click"}
