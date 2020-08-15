@@ -22,11 +22,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn
-      - run: yarn lint
-      - run: yarn electron-rebuild
-      - run: yarn package
-      - run: yarn make
+      - run: npm i
+      - run: npm run lint
+      - run: npm run electron-rebuild
+      - run: npm run package
+      - run: npm run make
       - name: Uploading dmg artifact
         uses: actions/upload-artifact@v2
         with:
