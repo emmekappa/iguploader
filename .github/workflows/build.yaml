@@ -24,7 +24,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm i
       - run: npm run lint
-      - run: npm run electron-rebuild
       - run: npm run package
       - run: npm run make
       - name: Uploading dmg artifact
