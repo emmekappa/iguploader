@@ -1,7 +1,7 @@
 import {AspectRatioValidator} from "./aspectRatioValidator";
 import {OkValidator} from "./okValidator";
+import sharp from "sharp";
 import {PhotoValidatorHandler, ValidationResult} from "./photoValidatorHandlers";
-import Jimp from "jimp";
 
 export class PhotoValidator {
     private rootHandler: PhotoValidatorHandler
@@ -12,7 +12,6 @@ export class PhotoValidator {
     }
 
     async isValid(path: string): Promise<ValidationResult> {
-        const picture = await Jimp.read(path);
-        return this.rootHandler.handle(picture)
+        return this.rootHandler.handle(sharp(path))
     }
 }
