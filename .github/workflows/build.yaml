@@ -27,14 +27,13 @@ jobs:
           SHARP_IGNORE_GLOBAL_LIBVIPS: true
       - run: npm i
       - run: npm run lint
-      - run: npm run package
-      - run: npm run make
       - run: npm run test
-      - name: Uploading dmg artifact
+      - run: npm run make
+      - name: Uploading artifact
         uses: actions/upload-artifact@v2
         with:
-          name: dmg
-          path: out/make/*.dmg
+          name: artifact
+          path: out/make/**/*
 
   upload-latest-release:
     name: upload latest release
