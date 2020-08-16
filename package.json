@@ -21,7 +21,14 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "ignore": [
+          "\\.gitignore",
+          "node_modules/\\.cache",
+          ".*\\.(iobj|pdb|ipdb)$"
+        ],
+        "derefSymlinks": true
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-dmg",
@@ -66,7 +73,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.52",
     "@electron-forge/maker-zip": "^6.0.0-beta.52",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.52",
-    "@zeit/webpack-asset-relocator-loader": "^0.7.2",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@types/chai": "^4.2.12",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/mocha": "^8.0.1",
