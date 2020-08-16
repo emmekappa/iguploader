@@ -24,6 +24,12 @@
       "packagerConfig": {},
       "makers": [
         {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "iguploader"
+          }
+        },
+        {
           "name": "@electron-forge/maker-dmg",
           "config": {
             "format": "ULFO"
@@ -34,7 +40,7 @@
           "platforms": [
             "darwin",
             "linux",
-            "windows"
+            "win32"
           ]
         }
       ],
