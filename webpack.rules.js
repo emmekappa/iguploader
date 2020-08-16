@@ -4,7 +4,7 @@ module.exports = [
     test: /\.node$/,
     use: 'node-loader',
   },
-  {
+  /*{
     test: /\.(m?js|node)$/,
     parser: { amd: false },
     use: {
@@ -13,7 +13,7 @@ module.exports = [
         outputAssetBase: 'native_modules',
       },
     },
-  },
+  },*/
   {
     test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
