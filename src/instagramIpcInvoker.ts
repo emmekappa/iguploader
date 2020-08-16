@@ -14,7 +14,7 @@ export class InstagramIpcInvoker {
         return result
     }
 
-    public async login(): Promise<void> {
+    public async login(): Promise<boolean> {
         const result = await ipcRenderer.invoke('login', {});
         console.log(result)
         return result
