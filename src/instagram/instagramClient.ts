@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as os from "os"
 import * as path from "path"
 import {PostingAlbumPhotoItem} from "instagram-private-api/dist/types/posting.album.options";
-import sharp from "sharp";
+import Jimp from "jimp"
 
 export class InstagramClient {
     private readonly username: string
@@ -84,10 +84,11 @@ export class InstagramClient {
     }
 
     private static async prepareImage(path: string): Promise<Buffer> {
-        return await sharp(path).resize({
-            width: 1080,
-            withoutEnlargement: true,
-        }).jpeg({quality: 80}).toBuffer();
+        let jimp = await Jimp.read(path)
+        if(jimp.getWidth() > 1080) {
+            jimp = jimp.resize(1080, Jimp.AUTO)
+        }
+        return await jimp.quality(80).getBufferAsync(Jimp.MIME_JPEG)
     }
 
     async uploadPhoto(caption: string, localPath: string) {

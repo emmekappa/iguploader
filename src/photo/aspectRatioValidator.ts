@@ -1,4 +1,4 @@
-import sharp from "sharp";
+import Jimp from 'jimp';
 import {AbstractPhotoValidatorHandler, ValidationResult} from "./photoValidatorHandlers";
 
 /**
@@ -7,11 +7,8 @@ import {AbstractPhotoValidatorHandler, ValidationResult} from "./photoValidatorH
  * pixels).
  */
 export class AspectRatioValidator extends AbstractPhotoValidatorHandler {
-    async handle(picture: sharp.Sharp): Promise<ValidationResult> {
-        const metadata = await picture.metadata()
-        if(metadata.width == undefined || metadata.height == undefined)
-            return {isValid: false, reason: "Unable to load metadata"}
-        const aspectRatio = metadata.width / metadata.height
+    async handle(picture: Jimp): Promise<ValidationResult> {
+        const aspectRatio = picture.getWidth() / picture.getHeight()
         const isValid = aspectRatio >= 4 / 5 && aspectRatio <= 1.91
         if (!isValid)
             return {isValid: false, reason: `Aspect ratio ${aspectRatio} is invalid (should be between 4:5 and 1.91:1)`}

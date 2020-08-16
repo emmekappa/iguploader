@@ -1,4 +1,4 @@
-import sharp from "sharp";
+import Jimp from "jimp";
 
 export interface ValidationResult {
     isValid: boolean;
@@ -7,7 +7,8 @@ export interface ValidationResult {
 
 export interface PhotoValidatorHandler {
     setNext(handler: PhotoValidatorHandler): PhotoValidatorHandler;
-    handle(picture: sharp.Sharp): Promise<ValidationResult>;
+
+    handle(picture: Jimp): Promise<ValidationResult>;
 }
 
 export abstract class AbstractPhotoValidatorHandler implements PhotoValidatorHandler {
@@ -18,7 +19,7 @@ export abstract class AbstractPhotoValidatorHandler implements PhotoValidatorHan
         return handler;
     }
 
-    public handle(picture: sharp.Sharp): Promise<ValidationResult> {
+    public handle(picture: Jimp): Promise<ValidationResult> {
         if (this.nextHandler) {
             return this.nextHandler.handle(picture);
         }
