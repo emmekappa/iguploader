@@ -29,6 +29,7 @@ jobs:
       - run: npm run lint
       - run: npm run package
       - run: npm run make
+      - run: npm run test
       - name: Uploading dmg artifact
         uses: actions/upload-artifact@v2
         with:
