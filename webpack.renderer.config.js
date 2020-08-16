@@ -21,9 +21,6 @@ module.exports = {
     module: {
         rules,
     },
-    externals: {
-        "sharp": 'commonjs sharp',
-    },
     plugins: plugins,
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
