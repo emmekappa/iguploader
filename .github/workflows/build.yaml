@@ -25,6 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
         env:
           SHARP_IGNORE_GLOBAL_LIBVIPS: true
+          DEBUG: "electron-forge:*"
       - run: npm i
       - run: npm run lint
       - run: npm run test
@@ -34,8 +35,6 @@ jobs:
         with:
           name: artifact
           path: out/make/**/*
-        env:
-          DEBUG: "electron-forge:*"
 
   upload-latest-release:
     name: upload latest release
