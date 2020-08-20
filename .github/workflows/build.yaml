@@ -23,8 +23,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-        env:
-          SHARP_IGNORE_GLOBAL_LIBVIPS: true
+        #env:
+        #  SHARP_IGNORE_GLOBAL_LIBVIPS: true
       - run: npm i
       - run: npm run lint
       - run: npm run test
