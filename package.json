@@ -6,8 +6,8 @@
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
-    "package": "env DEBUG=electron-forge:* electron-forge package",
-    "make": "env DEBUG=electron-forge:* electron-forge make",
+    "package": "env DEBUG=electron-forge:* electron-forge package -v",
+    "make": "env DEBUG=electron-forge:* electron-forge make -v",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts .",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'tests/**/*.ts'",
