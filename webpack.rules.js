@@ -11,6 +11,7 @@ module.exports = [
       loader: '@simonellistonball/webpack-asset-relocator-loader',
       options: {
         outputAssetBase: 'native_modules',
+        debugLog: true,
       },
     },
   },
