@@ -2,6 +2,7 @@ import React, {FunctionComponent, PropsWithChildren, useEffect, useState} from "
 import {DropzoneAreaBase, DropzoneAreaProps, FileObject} from "material-ui-dropzone";
 import {PhotoValidator} from "./photo/photoValidator";
 import {useSnackbar} from "notistack";
+import {Container, LinearProgress} from "@material-ui/core";
 
 
 const splitDropzoneAreaProps = (props: DropzoneAreaProps) => {
@@ -13,6 +14,7 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
     const [, dropzoneAreaProps] = splitDropzoneAreaProps(props);
     const [fileObjects, setFileObjects] = useState<FileObject[]>(new Array<FileObject>())
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+    const [loading, setLoading] = useState<boolean>(false)
 
     const notifyFileChange = (): void => {
         if (props.onChange) {
@@ -37,6 +39,7 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
     }, [fileObjects])
 
     const onAdd = async (addedFileObjects: FileObject[]): Promise<void> => {
+        setLoading(true)
         const photoValidator = new PhotoValidator();
 
         const validFileObjects = new Array<FileObject>()
@@ -58,6 +61,8 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
             enqueueSnackbar(`Added files: ${validFileObjects.map(x => x.file.name).join(", ")}`, {variant: "success"})
             console.log('Added Files:', validFileObjects)
         }
+
+        setLoading(false)
     }
     const onDelete = (fileObject: FileObject, index: number): void => {
         const remainingFileObjs = fileObjects.filter((fileObject, i) => {
@@ -70,14 +75,17 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
 
 
     return (
-        <DropzoneAreaBase
-            {...dropzoneAreaProps}
-            onAdd={onAdd}
-            onDelete={onDelete}
-            onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
-            fileObjects={fileObjects}
-            showAlerts={false}
-            filesLimit={10}
-        />
+        <Container>
+            <LinearProgress hidden={!loading}/>
+            <DropzoneAreaBase
+                {...dropzoneAreaProps}
+                onAdd={onAdd}
+                onDelete={onDelete}
+                onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
+                fileObjects={fileObjects}
+                showAlerts={false}
+                filesLimit={10}
+            />
+        </Container>
     )
 }
