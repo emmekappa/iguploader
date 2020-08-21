@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn lint
-      - run: yarn package
-      - run: yarn make
-      - run: yarn publish
+      - run: yarn run lint
+      - run: yarn run package
+      - run: yarn run make
+      - run: yarn run publish
