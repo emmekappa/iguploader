@@ -1,14 +1,14 @@
 {
   "name": "iguploader",
   "productName": "iguploader",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Instagram uploader",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
     "package": "env 'DEBUG=electron-forge:*' electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "make": "env 'DEBUG=electron-forge:*' electron-forge make",
+    "publish": "env 'DEBUG=electron-forge:*' electron-forge publish",
     "lint": "eslint --ext .ts .",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'tests/**/*.ts'",
     "generate-barrels": "barrelsby --delete --directory ./src -l below -V"
