@@ -23,38 +23,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i
-      - run: npm run lint
-      - run: npm run package
-      - run: npm run make
-      - name: Uploading dmg artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dmg
-          path: out/make/*.dmg
-
-  upload-latest-release:
-    name: upload latest release
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Download dmg artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: dmg
-      - name: Get release url
-        id: get_release_url
-        run:   |
-          upload_url=$(curl -sL https://api.github.com/repos/${{github.repository}}/releases/latest?access_token=${{ secrets.GITHUB_TOKEN }} | jq -r '.upload_url')
-          echo ::set-output name=upload_url::$upload_url
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_url.outputs.upload_url }}
-          asset_path: ./iguploader-1.0.0.dmg
-          asset_name: iguploader-1.0.0.dmg
-          asset_content_type: application/octet-stream
+      - run: yarn
+      - run: yarn lint
+      - run: yarn package
+      - run: yarn make
+      - run: yarn publish
