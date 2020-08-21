@@ -14,7 +14,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css']
   },
-  externals: {
+  /*externals: {
     "sharp": 'commonjs sharp',
-  },
+  },*/
 };

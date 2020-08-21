@@ -37,12 +37,13 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
     }, [fileObjects])
 
     const onAdd = async (addedFileObjects: FileObject[]): Promise<void> => {
-        const photoValidator = new PhotoValidator();
+        //const photoValidator = new PhotoValidator();
 
         const validFileObjects = new Array<FileObject>()
 
         for (const fileObject of addedFileObjects) {
-            const validationResult = await photoValidator.isValid(fileObject.file.path)
+            //const validationResult = await photoValidator.isValid(fileObject.file.path)
+            const validationResult = { isValid: true, reason: "" }
             if (!validationResult.isValid) {
                 enqueueSnackbar(`${fileObject.file.name} invalid: ${validationResult.reason}`, {
                     variant: "error",
