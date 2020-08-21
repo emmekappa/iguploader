@@ -22,6 +22,18 @@
   "config": {
     "forge": {
       "packagerConfig": {},
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "emmekappa",
+              "name": "iguploader"
+            },
+            "prerelease": true
+          }
+        }
+      ],
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -107,6 +119,7 @@
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
-    "sharp": "^0.25.4"
+    "sharp": "^0.25.4",
+    "yarn": "^1.22.4"
   }
 }
