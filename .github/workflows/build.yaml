@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
+π
     strategy:
       fail-fast: false
       matrix:
@@ -21,8 +21,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
@@ -30,3 +28,5 @@ jobs:
       - run: yarn run package
       - run: yarn run make
       - run: yarn run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
