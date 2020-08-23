@@ -1,7 +1,7 @@
 {
   "name": "iguploader",
   "productName": "iguploader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Instagram uploader",
   "main": ".webpack/main",
   "scripts": {
