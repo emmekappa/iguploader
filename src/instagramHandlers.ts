@@ -1,6 +1,8 @@
 import {IpcMainInvokeEvent} from "electron";
 import {CredentialsStore, InstagramClient} from "./instagram";
 import {IgLocation} from "./IgLocation";
+import {PhotoValidator} from "./photo/photoValidator";
+import {ValidationResult} from "./photo/photoValidatorHandlers";
 
 export interface SearchByLocationArgs {
     query: string;
@@ -44,4 +46,14 @@ export async function loginHandler(event: IpcMainInvokeEvent, args: any | undefi
         console.error(`Unable to login: ${error.message}`)
         return false
     }
+}
+
+export interface ValidatePhotoArgs {
+    filePath: string;
+}
+
+export async function validatePhoto(event: IpcMainInvokeEvent, args: ValidatePhotoArgs): Promise<ValidationResult> {
+    const photoValidator = new PhotoValidator();
+    const validationResult = await photoValidator.isValid(args.filePath)
+    return validationResult
 }
