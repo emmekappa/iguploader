@@ -37,8 +37,8 @@ export const IgDrawer: FunctionComponent<DrawerNewProps> = (props: DrawerNewProp
         </div>
         <Divider/>
         <List>
-            <ListItemLink to={albumUploaderPath} primary="Album uploader" icon={<PhotoLibrary/>}/>
-            <ListItemLink to={searchByLocationPath} primary="Search by location" icon={<Search/>}/>
+            <ListItemLink to={albumUploaderPath} primary="Upload photo" icon={<PhotoLibrary/>}/>
+            {/*<ListItemLink to={searchByLocationPath} primary="Search by location" icon={<Search/>}/>*/}
             <Divider/>
             <ListItemLink to={loginPath} primary="Login" icon={<AccountBox/>}/>
         </List>

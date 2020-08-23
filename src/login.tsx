@@ -4,6 +4,7 @@ import {Button, Container, createStyles, LinearProgress, TextField, Theme, Typog
 import {CredentialsStoreContext, InstagramIpcInvokerContext} from "./main";
 import {makeStyles} from "@material-ui/core/styles";
 import {useSnackbar} from "notistack";
+import {Disable} from "react-disable";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -62,19 +63,23 @@ export const Login: FunctionComponent = (props) => {
             <Typography variant="h6" className={classes.moreSpace}>
                 Please enter your instagram account credentials
             </Typography>
-            <form noValidate autoComplete="off" onSubmit={saveLogin} aria-describedby="progressBar" aria-busy={loading}
-                  aria-disabled={loading}>
-                <TextField id="standard-basic" label="username" onChange={event => setUsername(event.target.value)}
-                           fullWidth value={username}/>
-                <TextField id="standard-basic" label="password" type="password" value={password}
-                           onChange={event => setPassword(event.target.value)} fullWidth/>
-                <LinearProgress hidden={!loading} id="progressBar"/>
-                <div className={classes.root}>
-                    <Button variant="contained" color="primary" onClick={saveLogin} disabled={loading}>Login</Button>
-                    <Button variant="contained" color="default" onClick={clearCredentials} disabled={loading}>Clear
-                        credentials</Button>
-                </div>
-            </form>
+            <Disable disabled={loading}>
+                <form noValidate autoComplete="off" onSubmit={saveLogin}>
+                    <TextField id="standard-basic" label="Username" onChange={event => setUsername(event.target.value)}
+                               fullWidth value={username}/>
+                    <TextField id="standard-basic" label="Password" type="password" value={password}
+                               onChange={event => setPassword(event.target.value)} fullWidth/>
+                    <LinearProgress hidden={!loading} id="progressBar"/>
+                    <div className={classes.root}>
+                        <Button variant="contained" color="primary" onClick={saveLogin}>
+                            Login
+                        </Button>
+                        <Button variant="contained" color="default" onClick={clearCredentials}>
+                            Clear credentials
+                        </Button>
+                    </div>
+                </form>
+            </Disable>
         </Container>
     )
 }
