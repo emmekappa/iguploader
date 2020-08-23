@@ -1,16 +1,16 @@
 {
   "name": "iguploader",
   "productName": "iguploader",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Instagram uploader",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
     "package": "env 'DEBUG=electron-forge:*' electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "make": "env 'DEBUG=electron-forge:*' electron-forge make",
+    "publish": "env 'DEBUG=electron-forge:*' electron-forge publish",
     "lint": "eslint --ext .ts .",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' electron --timeout 10000 -r ts-node/register 'tests/**/*.ts'",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'tests/**/*.ts'",
     "generate-barrels": "barrelsby --delete --directory ./src -l below -V"
   },
   "keywords": [],
@@ -24,6 +24,12 @@
       "packagerConfig": {},
       "makers": [
         {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "iguploader"
+          }
+        },
+        {
           "name": "@electron-forge/maker-dmg",
           "config": {
             "format": "ULFO"
@@ -34,8 +40,20 @@
           "platforms": [
             "darwin",
             "linux",
-            "windows"
+            "win32"
           ]
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "emmekappa",
+              "name": "iguploader"
+            },
+            "prerelease": true
+          }
         }
       ],
       "plugins": [
@@ -66,19 +84,19 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.52",
     "@electron-forge/maker-zip": "^6.0.0-beta.52",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.52",
+    "@electron-forge/publisher-github": "^6.0.0-beta.52",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@types/chai": "^4.2.12",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/mocha": "^8.0.1",
     "@types/react-router-dom": "^5.1.5",
-    "@types/sharp": "^0.25.1",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
     "barrelsby": "^2.2.0",
     "chai": "^4.2.0",
-    "css-loader": "^3.0.0",
+    "css-loader": "^4.2.1",
     "electron": "^9.2.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
@@ -90,7 +108,7 @@
     "style-loader": "^0.23.1",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.10.2",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -102,12 +120,12 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^6.0.0",
     "instagram-private-api": "^1.41.0",
+    "jimp": "^0.16.0",
     "material-ui-dropzone": "^3.3.1",
     "notistack": "^0.9.17",
     "react": "^16.13.1",
     "react-disable": "^0.1.0",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "sharp": "^0.25.4"
+    "react-router-dom": "^5.2.0"
   }
 }

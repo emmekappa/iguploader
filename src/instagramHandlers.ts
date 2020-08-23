@@ -35,7 +35,7 @@ export async function uploadAlbumHandler(event: IpcMainInvokeEvent, args: Upload
         return await client.uploadAlbum(args.caption, args.filesPath)
 }
 
-export async function loginHandler(event: IpcMainInvokeEvent, args: {}): Promise<boolean> {
+export async function loginHandler(event: IpcMainInvokeEvent, args: any | undefined): Promise<boolean> {
     const client = createClient()
     try {
         await client.login(true)
