@@ -1,8 +1,9 @@
-import React, {FunctionComponent, PropsWithChildren, useEffect, useState} from "react";
+import React, {FunctionComponent, PropsWithChildren, useContext, useEffect, useState} from "react";
 import {DropzoneAreaBase, DropzoneAreaProps, FileObject} from "material-ui-dropzone";
-import {PhotoValidator} from "./photo/photoValidator";
 import {useSnackbar} from "notistack";
 import {Container, LinearProgress} from "@material-ui/core";
+import {InstagramIpcInvokerContext} from "./main";
+import {Disable} from "react-disable";
 
 
 const splitDropzoneAreaProps = (props: DropzoneAreaProps) => {
@@ -15,6 +16,7 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
     const [fileObjects, setFileObjects] = useState<FileObject[]>(new Array<FileObject>())
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
     const [loading, setLoading] = useState<boolean>(false)
+    const instagramIpcInvoker = useContext(InstagramIpcInvokerContext)
 
     const notifyFileChange = (): void => {
         if (props.onChange) {
@@ -40,12 +42,11 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
 
     const onAdd = async (addedFileObjects: FileObject[]): Promise<void> => {
         setLoading(true)
-        const photoValidator = new PhotoValidator();
 
         const validFileObjects = new Array<FileObject>()
 
         for (const fileObject of addedFileObjects) {
-            const validationResult = await photoValidator.isValid(fileObject.file.path)
+            const validationResult = await instagramIpcInvoker.validatePhoto({filePath: fileObject.file.path})
             if (!validationResult.isValid) {
                 enqueueSnackbar(`${fileObject.file.name} invalid: ${validationResult.reason}`, {
                     variant: "error",
@@ -73,19 +74,20 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (props: PropsWit
         console.log('Removed File:', fileObject)
     }
 
-
     return (
         <Container>
             <LinearProgress hidden={!loading}/>
-            <DropzoneAreaBase
-                {...dropzoneAreaProps}
-                onAdd={onAdd}
-                onDelete={onDelete}
-                onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
-                fileObjects={fileObjects}
-                showAlerts={false}
-                filesLimit={10}
-            />
+            <Disable disabled={loading}>
+                <DropzoneAreaBase
+                    {...dropzoneAreaProps}
+                    onAdd={onAdd}
+                    onDelete={onDelete}
+                    onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
+                    fileObjects={fileObjects}
+                    showAlerts={false}
+                    filesLimit={10}
+                />
+            </Disable>
         </Container>
     )
 }
