@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext} from 'react';
 import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {MemoryRouter, Route, Switch} from "react-router-dom";
 import {SearchByLocation} from "./searchByLocation";
-import {AlbumUploader} from "./albumUploader";
+import {PhotoUploader} from "./photoUploader";
 import {Login} from "./login";
 import {albumUploaderPath, loginPath, rootPath, searchByLocationPath} from "./routes";
 import {IgDrawer} from "./igDrawer";
@@ -123,7 +123,7 @@ const Main: FunctionComponent = () => {
                         <div className={classes.toolbar}/>
                         <Switch>
                             <Route path={rootPath} exact component={SearchByLocation}/>
-                            <Route path={albumUploaderPath} component={AlbumUploader}/>
+                            <Route path={albumUploaderPath} component={PhotoUploader}/>
                             <Route path={searchByLocationPath} component={SearchByLocation}/>
                             <Route path={loginPath} component={Login}/>
                         </Switch>
