@@ -21,6 +21,7 @@ export const PhotoUploader: FunctionComponent = () => {
     const [caption, setCaption] = useState<string>("")
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [uploadButtonDisabled, setUploadButtonDisabled] = useState<boolean>(true)
     const [key, setKey] = useState(0);
     const classes = useStyles();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
@@ -38,12 +39,15 @@ export const PhotoUploader: FunctionComponent = () => {
             enqueueSnackbar(error.message, {variant: "error"})
         } finally {
             setLoading(false)
+            setUploadButtonDisabled(true)
         }
     }
 
     const onChange = async (files: File[]) => {
         console.log(files)
         setFiles(files);
+        if(files.length > 0)
+            setUploadButtonDisabled(false)
     }
     return (
         <Container>
@@ -78,7 +82,7 @@ export const PhotoUploader: FunctionComponent = () => {
                     </Disable>
                     <LinearProgress hidden={!loading}/>
                     <Button variant="contained" color="primary" onClick={() => uploadFiles(files)}
-                            disabled={loading} fullWidth>Upload</Button>
+                            disabled={loading || uploadButtonDisabled} fullWidth>Upload</Button>
                 </form>
             </div>
         </Container>
