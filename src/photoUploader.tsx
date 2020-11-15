@@ -58,6 +58,7 @@ export const PhotoUploader: FunctionComponent = () => {
                     <Disable disabled={loading}>
                         <TextField id="standard-basic" label="Caption"
                                    onChange={event => setCaption(event.target.value)}
+                                   inputProps={{maxLength: 2200}}
                                    fullWidth value={caption} multiline={true} rows={4}/>
                         <FormControl className={classes.moreSpace} fullWidth disabled={loading}>
                             <IgDropzone
