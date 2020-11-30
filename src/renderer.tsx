@@ -26,14 +26,16 @@
  * ```
  */
 
-import {App} from "./app";
 import React from "react";
 import ReactDOM from "react-dom";
-import {hot} from "react-hot-loader";
-import './index.css';
+import { hot } from "react-hot-loader";
+import { App } from "./app";
+import "./index.css";
 
-console.log('👋 This message is being logged by "renderer.ts", included via webpack');
+console.log(
+  '👋 This message is being logged by "renderer.ts", included via webpack'
+);
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));
 
-export default hot(module)(App)
+export default hot(module)(App);
