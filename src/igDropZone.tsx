@@ -122,3 +122,5 @@ export const IgDropzone: FunctionComponent<DropzoneAreaProps> = (
     </Container>
   );
 };
+
+export default IgDropzone;

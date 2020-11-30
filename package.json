@@ -10,6 +10,7 @@
     "make": "env 'DEBUG=electron-forge:*' electron-forge make",
     "publish": "env 'DEBUG=electron-forge:*' electron-forge publish",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
+    "lint:fix": "eslint src/**/*.ts{,x} --fix",
     "format": "prettier --write src/**/*.ts{,x}",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'tests/**/*.ts'",
     "generate-barrels": "barrelsby --delete --directory ./src -l below -V"
