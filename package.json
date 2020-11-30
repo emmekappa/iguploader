@@ -113,7 +113,8 @@
     "style-loader": "^0.23.1",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.10.2",
-    "typescript": "^3.7.0"
+    "typescript": "^3.7.0",
+    "electron": "^9.2.0"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -131,7 +132,6 @@
     "react": "^16.13.1",
     "react-disable": "^0.1.0",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "electron": "^9.2.0"
+    "react-router-dom": "^5.2.0"
   }
 }
